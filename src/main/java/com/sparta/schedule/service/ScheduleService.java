@@ -3,10 +3,16 @@ package com.sparta.schedule.service;
 import com.sparta.schedule.dto.ScheduleRequest;
 import com.sparta.schedule.dto.ScheduleResponse;
 import com.sparta.schedule.entity.Schedule;
+import com.sparta.schedule.login.entity.User;
+import com.sparta.schedule.login.security.UserDetailsImpl;
 import com.sparta.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,14 +21,28 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) {
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> getSchedule() {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
 
-        Schedule schedule = scheduleRepository.save()
-        return null;
+        for (Schedule schedule : schedules) {
+            scheduleResponses.add(ScheduleResponse.from(schedule));
+        }
+
+        return scheduleResponses;
     }
 
-    @Transactional(readOnly = true)
-    public ScheduleResponse getSchedule() {
+    public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest, User user) {
 
+        Schedule schedule = scheduleRepository.save(Schedule.of(scheduleRequest, user));
+        return ScheduleResponse.from(schedule);
+    }
+
+    public ScheduleResponse updateSchedule(Long id, ScheduleRequest scheduleRequest, User user) {
+
+        Schedule schedule = scheduleRepository.findByIdAndUserId(id, user.getId());
+
+        return null;
     }
 }

@@ -1,7 +1,7 @@
 package com.sparta.schedule.login.security;
 
-import com.example.homework2.Board.entity.ErrorCode.UserRoleEnum;
-import com.example.homework2.Board.entity.User;
+
+import com.sparta.schedule.login.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

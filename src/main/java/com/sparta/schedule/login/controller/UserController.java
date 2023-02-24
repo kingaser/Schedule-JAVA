@@ -1,9 +1,9 @@
 package com.sparta.schedule.login.controller;
 
 
+import com.sparta.schedule.login.service.UserService;
 import com.sparta.schedule.login.dto.MegResponseDto;
 import com.sparta.schedule.login.dto.UserRequestDto;
-import com.sparta.schedule.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

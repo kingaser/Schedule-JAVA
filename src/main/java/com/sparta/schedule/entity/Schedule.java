@@ -1,14 +1,18 @@
 package com.sparta.schedule.entity;
 
 import com.sparta.schedule.dto.ScheduleRequest;
+import com.sparta.schedule.login.entity.User;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule {
 
     @Id
@@ -33,6 +37,14 @@ public class Schedule {
         author = scheduleRequest.getAuthor();
         contents = scheduleRequest.getContents();
         isDone = scheduleRequest.isDone();
+        this.user = user;
+    }
+
+    public static Schedule of(ScheduleRequest scheduleRequest, User user) {
+        return Schedule.builder()
+                .scheduleRequest(scheduleRequest)
+                .user(user)
+                .build();
     }
 
 }

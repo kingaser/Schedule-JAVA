@@ -4,4 +4,5 @@ import com.sparta.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+    Schedule findByIdAndUserId(Long id, Long userId);
 }
