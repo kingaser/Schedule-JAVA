@@ -1,7 +1,8 @@
 package com.sparta.schedule.login.jwt;
 
+import com.example.homework2.Board.dto.MegResponseDto;
+import com.example.homework2.Board.entity.ErrorCode.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.schedule.login.dto.MegResponseDto;
 import com.sparta.schedule.login.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

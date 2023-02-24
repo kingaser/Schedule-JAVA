@@ -11,7 +11,9 @@ import javax.persistence.*;
 @Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -26,7 +28,6 @@ public class User{
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-
     @Builder
     public User(String username, String password,UserRoleEnum role) {
         this.username = username;
@@ -39,7 +40,8 @@ public class User{
                 .username(username)
                 .password(password)
                 .role(role)
-                .build();
-    }
+                .builder();
+                }
+
 
 }

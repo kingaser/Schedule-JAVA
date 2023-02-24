@@ -36,8 +36,9 @@ public class UserService {
         if(found.isPresent()){
             throw new IllegalArgumentException("중복 회원입니다.");
         }
-        userRepository.save(User.user_service(username,password,UserRoleEnum.USER));
 
+        userRepository.save(User.user_service(username,password,UserRoleEnum.USER));
+        
         return  ResponseEntity.ok(MegResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
     }
