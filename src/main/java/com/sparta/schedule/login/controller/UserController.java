@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -25,13 +27,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MegResponseDto>signup(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<MegResponseDto>signup(@Valid @RequestBody UserRequestDto userRequestDto){
         return userService.signup(userRequestDto);
     }
-
-
-
-
-
 
 }

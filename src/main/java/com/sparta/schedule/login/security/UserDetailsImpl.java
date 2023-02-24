@@ -2,6 +2,7 @@ package com.sparta.schedule.login.security;
 
 
 import com.sparta.schedule.login.entity.User;
+import com.sparta.schedule.login.entity.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
