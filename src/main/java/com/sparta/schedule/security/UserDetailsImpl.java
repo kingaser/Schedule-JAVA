@@ -1,8 +1,8 @@
-package com.sparta.schedule.login.security;
+package com.sparta.schedule.security;
 
 
-import com.sparta.schedule.login.entity.User;
-import com.sparta.schedule.login.entity.UserRoleEnum;
+import com.sparta.schedule.entity.User;
+import com.sparta.schedule.entity.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

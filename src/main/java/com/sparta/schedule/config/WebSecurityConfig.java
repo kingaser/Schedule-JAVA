@@ -1,7 +1,7 @@
-package com.sparta.schedule.login.config;
+package com.sparta.schedule.config;
 
-import com.sparta.schedule.login.jwt.JwtAuthFilter;
-import com.sparta.schedule.login.jwt.JwtUtil;
+import com.sparta.schedule.jwt.JwtAuthFilter;
+import com.sparta.schedule.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

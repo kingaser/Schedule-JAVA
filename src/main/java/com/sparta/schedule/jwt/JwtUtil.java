@@ -1,7 +1,7 @@
-package com.sparta.schedule.login.jwt;
+package com.sparta.schedule.jwt;
 
-import com.sparta.schedule.login.entity.UserRoleEnum;
-import com.sparta.schedule.login.security.UserDetailsServiceImpl;
+import com.sparta.schedule.entity.UserRoleEnum;
+import com.sparta.schedule.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;

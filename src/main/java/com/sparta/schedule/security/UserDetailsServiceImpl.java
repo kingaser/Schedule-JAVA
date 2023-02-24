@@ -1,8 +1,8 @@
-package com.sparta.schedule.login.security;
+package com.sparta.schedule.security;
 
-import com.sparta.schedule.login.entity.User;
-import com.sparta.schedule.login.exception.ErrorCode;
-import com.sparta.schedule.login.repository.UserRepository;
+import com.sparta.schedule.entity.User;
+import com.sparta.schedule.exception.ErrorCode;
+import com.sparta.schedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

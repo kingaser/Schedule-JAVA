@@ -1,21 +1,47 @@
-<<<<<<< HEAD
 package com.sparta.schedule.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "users")
+@Getter
+@Entity(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
+    @Column(nullable = false)
     private String username;
-    private String email;
+
+    @Column(nullable = false)
     private String password;
 
-=======
-package com.sparta.schedule.entity;public class User {
->>>>>>> b4b44489528cc5c4e064de156852e3858ae4a9b5
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    @Builder
+    public User(String username, String password,UserRoleEnum role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public static User user_service(String username, String password, UserRoleEnum role){
+        return User.builder()
+                .username(username)
+                .password(password)
+                .role(role)
+                .build();
+                }
+
+
 }
