@@ -3,6 +3,7 @@ package com.sparta.schedule.login.service;
 import com.sparta.schedule.login.dto.MegResponseDto;
 import com.sparta.schedule.login.dto.UserRequestDto;
 import com.sparta.schedule.login.entity.User;
+import com.sparta.schedule.login.entity.UserRoleEnum;
 import com.sparta.schedule.login.exception.ApiException;
 import com.sparta.schedule.login.exception.ErrorCode;
 import com.sparta.schedule.login.jwt.JwtUtil;
@@ -35,8 +36,7 @@ public class UserService {
         if(found.isPresent()){
             throw new IllegalArgumentException("중복 회원입니다.");
         }
-
-        userRepository.save(User.user_service(username,password));
+        userRepository.save(User.user_service(username,password,UserRoleEnum.USER));
 
         return  ResponseEntity.ok(MegResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
@@ -54,7 +54,7 @@ public class UserService {
 
 //        header에 들어갈 JWT 세팅
         HttpHeaders headers = new HttpHeaders();
-        headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getUsername()));
+        headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getUsername(), user.get().getRole()));
 
         return ResponseEntity.ok()
                 .headers(headers)

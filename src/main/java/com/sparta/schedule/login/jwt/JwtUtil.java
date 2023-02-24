@@ -1,7 +1,6 @@
 package com.sparta.schedule.login.jwt;
 
-import com.example.homework2.Board.entity.ErrorCode.UserRoleEnum;
-import com.example.homework2.Board.security.UserDetailsServiceImpl;
+import com.sparta.schedule.login.entity.UserRoleEnum;
 import com.sparta.schedule.login.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -53,12 +52,13 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(String username) {
+    public String createToken(String username, UserRoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
+                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)

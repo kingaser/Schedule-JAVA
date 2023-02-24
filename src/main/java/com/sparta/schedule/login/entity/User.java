@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends Timestamped{
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -22,17 +22,23 @@ public class User extends Timestamped{
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
 
     @Builder
-    public User(String username, String password) {
+    public User(String username, String password,UserRoleEnum role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    public static User user_service(String username,String password){
+    public static User user_service(String username,String password,UserRoleEnum role){
         return User.builder()
                 .username(username)
                 .password(password)
+                .role(role)
                 .build();
     }
 

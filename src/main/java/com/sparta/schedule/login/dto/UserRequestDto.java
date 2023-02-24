@@ -12,4 +12,5 @@ public class UserRequestDto {
     private String username;
     @Pattern(regexp = "^[A-z0-9!@#$%^&*()_+]{7,14}$",message = "비밀번호는 8~15자리 영문 대소문자,숫자,특수문자를 포함시켜주세요")
     private String password;
+
 }
