@@ -23,7 +23,6 @@ public class Schedule implements Serializable {
 
     @Id
     private Long date;
-
     private String title;
     private String author;
     private String contents;
@@ -47,6 +46,10 @@ public class Schedule implements Serializable {
         title = scheduleRequestDto.getTitle();
         contents = scheduleRequestDto.getContents();
         this.user = user;
+    }
+
+    public void updateStatus(boolean isDone) {
+        this.isDone = isDone;
     }
 
 }
