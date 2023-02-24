@@ -1,7 +1,7 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.ScheduleRequest;
-import com.sparta.schedule.dto.ScheduleResponse;
+import com.sparta.schedule.dto.ScheduleRequestDto;
+import com.sparta.schedule.dto.ScheduleResponseDto;
 import com.sparta.schedule.entity.Schedule;
 import com.sparta.schedule.login.entity.User;
 import com.sparta.schedule.repository.ScheduleRepository;
@@ -20,24 +20,24 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponse> getSchedule() {
+    public List<ScheduleResponseDto> getSchedule() {
         List<Schedule> schedules = scheduleRepository.findAll();
-        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
+        List<ScheduleResponseDto> scheduleResponses = new ArrayList<>();
 
         for (Schedule schedule : schedules) {
-            scheduleResponses.add(ScheduleResponse.from(schedule));
+            scheduleResponses.add(ScheduleResponseDto.from(schedule));
         }
 
         return scheduleResponses;
     }
 
-    public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest, User user) {
+    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequest, User user) {
 
         Schedule schedule = scheduleRepository.save(Schedule.of(scheduleRequest, user));
-        return ScheduleResponse.from(schedule);
+        return ScheduleResponseDto.from(schedule);
     }
 
-    public ScheduleResponse updateSchedule(Long id, ScheduleRequest scheduleRequest, User user) {
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto scheduleRequest, User user) {
 
         Schedule schedule = scheduleRepository.findByIdAndUserId(id, user.getId());
 

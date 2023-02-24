@@ -1,7 +1,7 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.ScheduleRequest;
-import com.sparta.schedule.dto.ScheduleResponse;
+import com.sparta.schedule.dto.ScheduleRequestDto;
+import com.sparta.schedule.dto.ScheduleResponseDto;
 import com.sparta.schedule.login.security.UserDetailsImpl;
 import com.sparta.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +18,17 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @GetMapping("/")
-    public List<ScheduleResponse> getSchedule() {
+    public List<ScheduleResponseDto> getSchedule() {
         return scheduleService.getSchedule();
     }
 
     @PostMapping("/create")
-    public ScheduleResponse createSchedule(@RequestBody ScheduleRequest scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.createSchedule(scheduleRequest, userDetails.getUser());
     }
 
     @PutMapping("/update")
-    public ScheduleResponse updateSchedule(@RequestBody ScheduleRequest scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return scheduleService.updateSchedule(scheduleRequest, userDetails.getUser());
+    public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return scheduleService.updateSchedule(id, scheduleRequest, userDetails.getUser());
     }
 }

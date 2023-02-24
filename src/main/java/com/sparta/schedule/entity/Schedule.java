@@ -1,6 +1,6 @@
 package com.sparta.schedule.entity;
 
-import com.sparta.schedule.dto.ScheduleRequest;
+import com.sparta.schedule.dto.ScheduleRequestDto;
 import com.sparta.schedule.login.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,7 +32,7 @@ public class Schedule {
     private User user;
 
     @Builder
-    private Schedule(ScheduleRequest scheduleRequest, User user) {
+    private Schedule(ScheduleRequestDto scheduleRequest, User user) {
         title = scheduleRequest.getTitle();
         author = scheduleRequest.getAuthor();
         contents = scheduleRequest.getContents();
@@ -40,7 +40,7 @@ public class Schedule {
         this.user = user;
     }
 
-    public static Schedule of(ScheduleRequest scheduleRequest, User user) {
+    public static Schedule of(ScheduleRequestDto scheduleRequest, User user) {
         return Schedule.builder()
                 .scheduleRequest(scheduleRequest)
                 .user(user)

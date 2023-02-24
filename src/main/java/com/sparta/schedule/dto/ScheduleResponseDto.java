@@ -7,21 +7,21 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ScheduleResponse {
+public class ScheduleResponseDto {
 
     private String title;
     private String author;
     private String contents;
 
     @Builder
-    private ScheduleResponse(Schedule schedule) {
+    private ScheduleResponseDto(Schedule schedule) {
         title = schedule.getTitle();
         author = schedule.getAuthor();
         contents = schedule.getContents();
     }
 
-    public static ScheduleResponse from(Schedule schedule) {
-        return ScheduleResponse.builder()
+    public static ScheduleResponseDto from(Schedule schedule) {
+        return ScheduleResponseDto.builder()
                 .schedule(schedule)
                 .build();
     }
