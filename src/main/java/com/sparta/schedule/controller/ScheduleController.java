@@ -2,6 +2,7 @@ package com.sparta.schedule.controller;
 
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import com.sparta.schedule.dto.ScheduleResponseDto;
+import com.sparta.schedule.login.dto.MegResponseDto;
 import com.sparta.schedule.login.security.UserDetailsImpl;
 import com.sparta.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -11,24 +12,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @GetMapping("/")
+    @GetMapping("/schedule")
     public List<ScheduleResponseDto> getSchedule() {
         return scheduleService.getSchedule();
     }
 
-    @PostMapping("/create")
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/schedule")
+    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest,
+                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.createSchedule(scheduleRequest, userDetails.getUser());
     }
 
-    @PutMapping("/update")
-    public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PutMapping("/schedule/{id}")
+    public ScheduleResponseDto updateSchedule(@PathVariable Long id,
+                                              @RequestBody ScheduleRequestDto scheduleRequest,
+                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.updateSchedule(id, scheduleRequest, userDetails.getUser());
+    }
+
+    @DeleteMapping("/schedule/{id}")
+    public MegResponseDto deleteSchedule(@PathVariable Long id,
+                                         @RequestBody ScheduleRequestDto scheduleRequestDto,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return scheduleService.deleteSchedule(id, scheduleRequestDto.getDate(), userDetails.getUser());
     }
 }

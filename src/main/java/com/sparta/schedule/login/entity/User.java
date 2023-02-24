@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User{
 
     @Id

@@ -8,43 +8,45 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule {
+@IdClass(Schedule.class)
+public class Schedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Id
-    private LocalDateTime date;
+    private Long date;
 
     private String title;
     private String author;
     private String contents;
     private boolean isDone;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id")
     private User user;
 
     @Builder
-    private Schedule(ScheduleRequestDto scheduleRequest, User user) {
+    public Schedule(ScheduleRequestDto scheduleRequest, User user) {
         title = scheduleRequest.getTitle();
         author = scheduleRequest.getAuthor();
         contents = scheduleRequest.getContents();
+        date = scheduleRequest.getDate();
         isDone = scheduleRequest.isDone();
         this.user = user;
     }
 
-    public static Schedule of(ScheduleRequestDto scheduleRequest, User user) {
-        return Schedule.builder()
-                .scheduleRequest(scheduleRequest)
-                .user(user)
-                .build();
+    public void update(ScheduleRequestDto scheduleRequestDto, User user) {
+        title = scheduleRequestDto.getTitle();
+        contents = scheduleRequestDto.getContents();
+        this.user = user;
     }
 
 }

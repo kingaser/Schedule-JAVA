@@ -3,14 +3,17 @@ package com.sparta.schedule.service;
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import com.sparta.schedule.dto.ScheduleResponseDto;
 import com.sparta.schedule.entity.Schedule;
+import com.sparta.schedule.login.dto.MegResponseDto;
 import com.sparta.schedule.login.entity.User;
 import com.sparta.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,7 @@ public class ScheduleService {
         List<ScheduleResponseDto> scheduleResponses = new ArrayList<>();
 
         for (Schedule schedule : schedules) {
-            scheduleResponses.add(ScheduleResponseDto.from(schedule));
+            scheduleResponses.add(new ScheduleResponseDto(schedule));
         }
 
         return scheduleResponses;
@@ -33,14 +36,37 @@ public class ScheduleService {
 
     public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequest, User user) {
 
-        Schedule schedule = scheduleRepository.save(Schedule.of(scheduleRequest, user));
-        return ScheduleResponseDto.from(schedule);
+        Schedule schedule = scheduleRepository.save(Schedule.builder()
+                .scheduleRequest(scheduleRequest)
+                .user(user)
+                .build());
+        return new ScheduleResponseDto(schedule);
     }
 
     public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto scheduleRequest, User user) {
 
-        Schedule schedule = scheduleRepository.findByIdAndUserId(id, user.getId());
+        Optional<Schedule> schedule = scheduleRepository.findByIdAndDateAndUserId(id, scheduleRequest.getDate(), user.getId());
+        if (schedule.isEmpty()) {
+            throw new IllegalArgumentException("해당 스케쥴이 없습니다.");
+        }
 
-        return null;
+        schedule.get().update(scheduleRequest, user);
+
+        return ScheduleResponseDto.builder()
+                .schedule(schedule.get())
+                .build();
+    }
+
+
+    public MegResponseDto deleteSchedule(Long id, Long date, User user) {
+
+        Optional<Schedule> schedule = scheduleRepository.findByIdAndDateAndUserId(id, date, user.getId());
+        if (schedule.isEmpty()) {
+            throw new IllegalArgumentException("해당 스케쥴이 없습니다.");
+        }
+
+        scheduleRepository.deleteByIdAndDateAndUserId(id, date, user.getId());
+
+        return MegResponseDto.User_ServiceCode(HttpStatus.OK, "스케쥴 삭제 완료");
     }
 }

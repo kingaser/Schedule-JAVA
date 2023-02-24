@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class ScheduleResponseDto {
@@ -14,16 +16,10 @@ public class ScheduleResponseDto {
     private String contents;
 
     @Builder
-    private ScheduleResponseDto(Schedule schedule) {
+    public ScheduleResponseDto(Schedule schedule) {
         title = schedule.getTitle();
         author = schedule.getAuthor();
         contents = schedule.getContents();
-    }
-
-    public static ScheduleResponseDto from(Schedule schedule) {
-        return ScheduleResponseDto.builder()
-                .schedule(schedule)
-                .build();
     }
 
 }

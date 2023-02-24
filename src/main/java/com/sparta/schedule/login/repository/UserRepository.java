@@ -2,6 +2,7 @@ package com.sparta.schedule.login.repository;
 
 import com.sparta.schedule.login.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
