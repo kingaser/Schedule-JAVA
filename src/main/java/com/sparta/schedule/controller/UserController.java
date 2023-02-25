@@ -1,18 +1,13 @@
-package com.sparta.schedule.Controller;
+package com.sparta.schedule.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.schedule.dto.MegResponseDto;
 import com.sparta.schedule.dto.UserRequestDto;
-import com.sparta.schedule.jwt.JwtUtil;
 import com.sparta.schedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
