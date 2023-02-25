@@ -59,8 +59,7 @@ public class ScheduleService {
 
     @Transactional
     public ResponseEntity<ScheduleResponseDto> updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
-
-        Optional<Schedule> found = scheduleRepository.findByUser(userDetails.getUser());
+        Optional<Schedule> found = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
         if (found.isEmpty() && userDetails.getUser().getRole() == UserRoleEnum.USER) {
             throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
         }
