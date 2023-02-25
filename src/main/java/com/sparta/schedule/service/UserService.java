@@ -30,6 +30,7 @@ public class UserService {
     public ResponseEntity<MegResponseDto> signup(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
+        String email = userRequestDto.getEmail();
 
 //        회원 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
@@ -37,7 +38,11 @@ public class UserService {
             throw new IllegalArgumentException("중복 회원입니다.");
         }
 
-        userRepository.save(User.user_service(username,password, UserRoleEnum.USER));
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            throw new IllegalArgumentException("중복된 이메일입니다.");
+        }
+        userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
         
         return  ResponseEntity.ok(MegResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
