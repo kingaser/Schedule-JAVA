@@ -68,11 +68,11 @@ public class ScheduleService {
         return MegResponseDto.User_ServiceCode(HttpStatus.OK, "스케쥴 삭제 완료");
     }
 
-    public CompleteResponseDto updateScheduleStatus(CompleteRequestDto requestDto) {
+    public String updateScheduleStatus(CompleteRequestDto requestDto) {
         Schedule schedule = scheduleRepository.findById(requestDto.getId()).orElseThrow(
                 () -> new IllegalArgumentException("해당하는 일정이 없습니다.")
         );
         schedule.updateStatus(requestDto.isDone());
-        return new CompleteResponseDto("success");
+        return "success";
     }
 }

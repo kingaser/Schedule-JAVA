@@ -41,7 +41,7 @@ public class ScheduleController {
         return scheduleService.deleteSchedule(id, scheduleRequestDto.getDate(), userDetails.getUser());
     }
     @PutMapping("/schedule/complete/{id}")
-    public CompleteResponseDto updateStatus(CompleteRequestDto requestDto){
+    public String updateStatus(@RequestBody CompleteRequestDto requestDto){
         return scheduleService.updateScheduleStatus(requestDto);
     }
 }
