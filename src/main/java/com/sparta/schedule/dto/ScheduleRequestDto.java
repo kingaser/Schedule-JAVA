@@ -1,18 +1,14 @@
 package com.sparta.schedule.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ScheduleRequestDto {
 
     private String date;
     private String title;
     private String author;
     private String contents;
-    private boolean isDone;
-
 }

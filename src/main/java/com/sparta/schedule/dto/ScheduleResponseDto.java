@@ -3,12 +3,8 @@ package com.sparta.schedule.dto;
 import com.sparta.schedule.entity.Schedule;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
 public class ScheduleResponseDto {
 
     private String title;
@@ -21,5 +17,4 @@ public class ScheduleResponseDto {
         author = schedule.getAuthor();
         contents = schedule.getContents();
     }
-
 }

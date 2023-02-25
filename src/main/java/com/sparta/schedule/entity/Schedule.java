@@ -7,46 +7,40 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@IdClass(Schedule.class)
-public class Schedule implements Serializable {
+public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String date;
-    private String title;
-    private String author;
-    private String contents;
-    private boolean isDone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    private String title;
+
+    private String author;
+
+    private String contents;
+
+    @ManyToOne
+    @JoinColumn(name = "User_Id", nullable = false)
     private User user;
 
     @Builder
-    public Schedule(ScheduleRequestDto scheduleRequest, User user) {
-        title = scheduleRequest.getTitle();
-        author = scheduleRequest.getAuthor();
-        contents = scheduleRequest.getContents();
-        date = scheduleRequest.getDate();
-        isDone = scheduleRequest.isDone();
-        this.user = user;
-    }
-
-    public void update(ScheduleRequestDto scheduleRequestDto, User user) {
+    public Schedule(ScheduleRequestDto scheduleRequestDto, User user) {
+        date = scheduleRequestDto.getDate();
         title = scheduleRequestDto.getTitle();
+        author = scheduleRequestDto.getAuthor();
         contents = scheduleRequestDto.getContents();
         this.user = user;
     }
 
-    public void updateStatus(boolean isDone) {
-        this.isDone = isDone;
+    public void update(ScheduleRequestDto scheduleRequestDto, User user) {
+        this.title = scheduleRequestDto.getTitle();
+        this.contents = scheduleRequestDto.getContents();
+        this.user = user;
     }
-
 }
