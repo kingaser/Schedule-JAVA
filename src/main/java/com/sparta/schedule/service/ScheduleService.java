@@ -1,5 +1,6 @@
 package com.sparta.schedule.service;
 
+import com.sparta.schedule.dto.CompleteRequestDto;
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import com.sparta.schedule.dto.ScheduleResponseDto;
 import com.sparta.schedule.dto.MegResponseDto;
@@ -92,6 +93,13 @@ public class ScheduleService {
         scheduleRepository.deleteById(id);
         return ResponseEntity.ok()
                 .body(MegResponseDto.User_ServiceCode(HttpStatus.OK, "삭제 완료"));
+    }
 
+    public String updateScheduleStatus(CompleteRequestDto requestDto) {
+        Schedule schedule = scheduleRepository.findById(requestDto.getId()).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 일정이 없습니다.")
+        );
+        schedule.updateCompleteStatus(requestDto.isDone());
+        return "success";
     }
 }

@@ -1,5 +1,6 @@
 package com.sparta.schedule.controller;
 
+import com.sparta.schedule.dto.CompleteRequestDto;
 import com.sparta.schedule.dto.MegResponseDto;
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import com.sparta.schedule.dto.ScheduleResponseDto;
@@ -48,4 +49,10 @@ public class ScheduleController {
                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.deleteSchedule(id, scheduleRequestDto, userDetails);
     }
+
+    @PutMapping("/schedule/complete/{id}")
+    public String updateStatus(@RequestBody CompleteRequestDto requestDto){
+        return scheduleService.updateScheduleStatus(requestDto);
+    }
 }
+
