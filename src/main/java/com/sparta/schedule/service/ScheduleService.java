@@ -30,7 +30,8 @@ public class ScheduleService {
         List<ScheduleResponseDto> scheduleResponses = new ArrayList<>();
 
         for (Schedule schedule : schedules) {
-            scheduleResponses.add(new ScheduleResponseDto(schedule));
+            ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
+            scheduleResponses.add(scheduleResponseDto);
         }
 
         return scheduleResponses;
@@ -59,7 +60,7 @@ public class ScheduleService {
     }
 
 
-    public MegResponseDto deleteSchedule(Long id, Long date, User user) {
+    public MegResponseDto deleteSchedule(Long id, String date, User user) {
 
         Optional<Schedule> schedule = scheduleRepository.findByIdAndDateAndUserId(id, date, user.getId());
         if (schedule.isEmpty()) {

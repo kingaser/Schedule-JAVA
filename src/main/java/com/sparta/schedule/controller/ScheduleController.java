@@ -44,7 +44,7 @@ public class ScheduleController {
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.deleteSchedule(id, scheduleRequestDto.getDate(), userDetails.getUser());
     }
-    @PutMapping("/schedule/{id}")
+    @PutMapping("/schedule/complete/{id}")
     public CompleteResponseDto updateStatus(CompleteRequestDto requestDto){
         return scheduleService.updateScheduleStatus(requestDto);
     }
