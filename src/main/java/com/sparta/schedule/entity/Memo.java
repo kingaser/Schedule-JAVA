@@ -2,7 +2,6 @@ package com.sparta.schedule.entity;
 
 
 import com.sparta.schedule.dto.MemoRequestDto;
-import com.sparta.schedule.login.entity.User;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

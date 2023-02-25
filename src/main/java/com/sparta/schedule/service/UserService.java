@@ -1,13 +1,13 @@
-package com.sparta.schedule.login.service;
+package com.sparta.schedule.service;
 
-import com.sparta.schedule.login.dto.MegResponseDto;
-import com.sparta.schedule.login.dto.UserRequestDto;
-import com.sparta.schedule.login.entity.User;
-import com.sparta.schedule.login.entity.UserRoleEnum;
-import com.sparta.schedule.login.exception.ApiException;
-import com.sparta.schedule.login.exception.ErrorCode;
-import com.sparta.schedule.login.jwt.JwtUtil;
-import com.sparta.schedule.login.repository.UserRepository;
+import com.sparta.schedule.dto.MegResponseDto;
+import com.sparta.schedule.dto.UserRequestDto;
+import com.sparta.schedule.entity.User;
+import com.sparta.schedule.entity.UserRoleEnum;
+import com.sparta.schedule.exception.ApiException;
+import com.sparta.schedule.exception.ErrorCode;
+import com.sparta.schedule.jwt.JwtUtil;
+import com.sparta.schedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +30,7 @@ public class UserService {
     public ResponseEntity<MegResponseDto> signup(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
+        String email = userRequestDto.getEmail();
 
 //        회원 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
@@ -37,7 +38,12 @@ public class UserService {
             throw new IllegalArgumentException("중복 회원입니다.");
         }
 
-        userRepository.save(User.user_service(username,password,UserRoleEnum.USER));
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            throw new IllegalArgumentException("중복된 이메일입니다.");
+        }
+        userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
+        
 
         return  ResponseEntity.ok(MegResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 

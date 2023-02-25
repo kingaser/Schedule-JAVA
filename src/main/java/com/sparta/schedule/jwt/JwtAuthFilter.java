@@ -1,8 +1,8 @@
-package com.sparta.schedule.login.jwt;
+package com.sparta.schedule.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.schedule.login.dto.MegResponseDto;
-import com.sparta.schedule.login.exception.ErrorCode;
+import com.sparta.schedule.dto.MegResponseDto;
+import com.sparta.schedule.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

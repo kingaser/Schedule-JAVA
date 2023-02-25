@@ -1,11 +1,7 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.CompleteRequestDto;
-import com.sparta.schedule.dto.CompleteResponseDto;
-import com.sparta.schedule.dto.ScheduleRequestDto;
-import com.sparta.schedule.dto.ScheduleResponseDto;
-import com.sparta.schedule.login.dto.MegResponseDto;
-import com.sparta.schedule.login.security.UserDetailsImpl;
+import com.sparta.schedule.dto.*;
+import com.sparta.schedule.security.UserDetailsImpl;
 import com.sparta.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

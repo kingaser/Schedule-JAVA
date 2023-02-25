@@ -1,12 +1,8 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.CompleteRequestDto;
-import com.sparta.schedule.dto.CompleteResponseDto;
-import com.sparta.schedule.dto.ScheduleRequestDto;
-import com.sparta.schedule.dto.ScheduleResponseDto;
+import com.sparta.schedule.dto.*;
 import com.sparta.schedule.entity.Schedule;
-import com.sparta.schedule.login.dto.MegResponseDto;
-import com.sparta.schedule.login.entity.User;
+import com.sparta.schedule.entity.User;
 import com.sparta.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.sparta.schedule.login.exception;
+package com.sparta.schedule.exception;
 
 import lombok.Getter;
 
