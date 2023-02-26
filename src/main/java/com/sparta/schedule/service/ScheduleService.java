@@ -60,7 +60,6 @@ public class ScheduleService {
     public ResponseEntity<ScheduleResponseDto> updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
         Optional<Schedule> found = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
         if (found.isEmpty() && userDetails.getUser().getRole() == UserRoleEnum.USER) {
-            // 이거 date 바꾸면 안됨 -> JSON
             throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
         }
 
