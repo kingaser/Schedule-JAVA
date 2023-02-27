@@ -1,5 +1,6 @@
 package com.sparta.schedule.dto;
 
+
 public class MemoRequestDto {
     private String content;
 
