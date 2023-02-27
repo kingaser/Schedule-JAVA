@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
     @Id
@@ -21,6 +20,8 @@ public class User {
     @Column(nullable = false)
     private String username;
 
+    private Long kakaoId;
+
     @Column(nullable = false)
     private String password;
 
@@ -28,8 +29,6 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-//    @Column(nullable = false)
-//    private Long kakaoId;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -42,7 +41,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-//        this.kakaoId = kakaoId;
+        this.kakaoId = kakaoId;
         this.role = role;
     }
 
@@ -59,9 +58,9 @@ public class User {
                 .build();
                 }
 
-//    public User kakaoIdUpdate(Long kakaoId){
-//        this.kakaoId = kakaoId;
-//        return this;
-//    }
+    public User kakaoIdUpdate(Long kakaoId){
+        this.kakaoId = kakaoId;
+        return this;
+    }
 
 }

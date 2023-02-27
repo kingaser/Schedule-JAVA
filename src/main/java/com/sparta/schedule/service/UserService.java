@@ -28,40 +28,36 @@ public class UserService {
 //          회원가입
     @Transactional
     public ResponseEntity<MessageResponseDto> signup(UserRequestDto userRequestDto) {
-        String username = userRequestDto.getUsername();
-        String password = passwordEncoder.encode(userRequestDto.getPassword());
         String email = userRequestDto.getEmail();
+        String password = passwordEncoder.encode(userRequestDto.getPassword());
+        String username = userRequestDto.getUsername();
 
 //        회원 중복 확인
-        Optional<User> found = userRepository.findByUsername(username);
+        Optional<User> found = userRepository.findByEmail(email);
         if(found.isPresent()){
             throw new IllegalArgumentException("중복 회원입니다.");
         }
 
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isPresent()){
-            throw new IllegalArgumentException("중복된 이메일입니다.");
-        }
         userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
-        
-
         return  ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
     }
+
+
     @Transactional
     public ResponseEntity<MessageResponseDto>login(UserRequestDto userRequestDto) {
-        String username = userRequestDto.getUsername();
+        String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
 //        사용자 확인 및 비밀번호 확인
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsername(email);
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())){
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
     }
 
 //        header에 들어갈 JWT 세팅
         HttpHeaders headers = new HttpHeaders();
-        headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getUsername(), user.get().getRole()));
+        headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getEmail(), user.get().getRole()));
 
         return ResponseEntity.ok()
                 .headers(headers)
