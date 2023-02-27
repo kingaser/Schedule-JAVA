@@ -1,8 +1,8 @@
 package com.sparta.schedule.controller;
 
 
-import com.sparta.schedule.dto.MemoRequestDto;
-import com.sparta.schedule.dto.MemoResponseDto;
+import com.sparta.schedule.dto.request.MemoRequestDto;
+import com.sparta.schedule.dto.response.MemoResponseDto;
 import com.sparta.schedule.security.UserDetailsImpl;
 import com.sparta.schedule.service.MemoService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/schedule") // 공통 경로
-public class memoController {
+public class MemoController {
 
     private final MemoService memoService;
 

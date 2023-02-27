@@ -1,7 +1,7 @@
 package com.sparta.schedule.entity;
 
 
-import com.sparta.schedule.dto.MemoRequestDto;
+import com.sparta.schedule.dto.request.MemoRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

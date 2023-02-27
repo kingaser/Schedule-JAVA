@@ -1,10 +1,8 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.MemoRequestDto;
-import com.sparta.schedule.dto.MemoResponseDto;
+import com.sparta.schedule.dto.request.MemoRequestDto;
+import com.sparta.schedule.dto.response.MemoResponseDto;
 import com.sparta.schedule.entity.Memo;
-import com.sparta.schedule.entity.User;
-import com.sparta.schedule.entity.UserRoleEnum;
 import com.sparta.schedule.repository.MemoRepository;
 import com.sparta.schedule.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

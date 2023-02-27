@@ -1,8 +1,8 @@
 package com.sparta.schedule.controller;
 
 
-import com.sparta.schedule.dto.MegResponseDto;
-import com.sparta.schedule.dto.UserRequestDto;
+import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<MegResponseDto>login(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<MessageResponseDto>login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
     }
 
 
     @PostMapping("/signup")
-    public ResponseEntity<MegResponseDto>signup(@Valid @RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<MessageResponseDto>signup(@Valid @RequestBody UserRequestDto userRequestDto){
         return userService.signup(userRequestDto);
     }
 
