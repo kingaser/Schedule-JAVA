@@ -62,6 +62,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests().antMatchers("/user/**").permitAll()
                 .antMatchers("/schedule/**").permitAll()
+                .antMatchers("/date/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

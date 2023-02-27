@@ -1,7 +1,7 @@
 package com.sparta.schedule.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.schedule.dto.MegResponseDto;
+import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +66,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
-            String json = new ObjectMapper().writeValueAsString(MegResponseDto.jwt_filter(error.getCode(), error.getMessage()));
+            String json = new ObjectMapper().writeValueAsString(MessageResponseDto.jwt_filter(error.getCode(), error.getMessage()));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());

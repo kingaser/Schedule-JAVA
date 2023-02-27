@@ -1,9 +1,9 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.CompleteRequestDto;
-import com.sparta.schedule.dto.ScheduleRequestDto;
-import com.sparta.schedule.dto.ScheduleResponseDto;
-import com.sparta.schedule.dto.MegResponseDto;
+import com.sparta.schedule.dto.request.CompleteRequestDto;
+import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.response.ScheduleRequestDto;
+import com.sparta.schedule.dto.response.ScheduleResponseDto;
 import com.sparta.schedule.entity.Schedule;
 import com.sparta.schedule.entity.UserRoleEnum;
 import com.sparta.schedule.repository.ScheduleRepository;
@@ -25,18 +25,17 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedule() {
-        List<Schedule> schedules = scheduleRepository.findAll();
-        List<ScheduleResponseDto> scheduleResponseDtos = new ArrayList<>();
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedule(String date) {
+        List<Schedule> schedules = scheduleRepository.findAllByDate(date);
+        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
-            scheduleResponseDtos.add(scheduleResponseDto);
+            scheduleResponseDtoList.add(new ScheduleResponseDto(schedule));
         }
-        return ResponseEntity.ok(scheduleResponseDtos);
+        return ResponseEntity.ok(scheduleResponseDtoList);
     }
 
     @Transactional
-    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto,UserDetailsImpl userDetails) {
         Schedule schedule = scheduleRepository.save(Schedule.builder()
                 .scheduleRequestDto(scheduleRequestDto)
                 .user(userDetails.getUser())
@@ -60,7 +59,7 @@ public class ScheduleService {
 
         foundUser(id, userDetails);
 
-        Optional<Schedule> schedule = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) {
             throw new IllegalArgumentException("스케쥴이 존재하지 않습니다.");
         }
@@ -73,19 +72,19 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ResponseEntity<MegResponseDto> deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
+    public ResponseEntity<MessageResponseDto> deleteSchedule(Long id, UserDetailsImpl userDetails) {
 
         foundUser(id, userDetails);
 
 
-        Optional<Schedule> schedule = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) {
             throw new IllegalArgumentException("스케쥴이 존재하지 않습니다.");
         }
 
         scheduleRepository.deleteById(id);
         return ResponseEntity.ok()
-                .body(MegResponseDto.User_ServiceCode(HttpStatus.OK, "삭제 완료"));
+                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK, "삭제 완료"));
     }
 
     @Transactional

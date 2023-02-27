@@ -4,10 +4,11 @@ import com.sparta.schedule.entity.Schedule;
 import com.sparta.schedule.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    Optional<Schedule> findByUser(User user);
-    Optional<Schedule> findByIdAndDate(Long id, String date);
+    List<Schedule> findAllByDate(String date);
+//    Optional<Schedule> findByIdAndDate(Long id, String date);
     Optional<Schedule> findByIdAndUser(Long id, User user);
 }

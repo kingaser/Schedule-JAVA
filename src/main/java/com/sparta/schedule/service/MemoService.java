@@ -1,17 +1,16 @@
 package com.sparta.schedule.service;
 
-
-import com.sparta.schedule.dto.MemoRequestDto;
-import com.sparta.schedule.dto.MemoResponseDto;
+import com.sparta.schedule.dto.request.MemoRequestDto;
+import com.sparta.schedule.dto.response.MemoResponseDto;
 import com.sparta.schedule.entity.Memo;
 import com.sparta.schedule.repository.MemoRepository;
+import com.sparta.schedule.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RequiredArgsConstructor
 @Service
@@ -32,20 +31,23 @@ public class MemoService {
         }
 
         // 메모 생성
-        public MemoResponseDto createMemo(MemoRequestDto memoRequestDto){
-            Memo memo = memoRepository.save(new Memo(memoRequestDto));
+        public MemoResponseDto createMemo(MemoRequestDto memoRequestDto, UserDetailsImpl userDetails){
+            Memo memo =  memoRepository.save(Memo.builder()
+                    .memoRequestDto(memoRequestDto)
+                    .user(userDetails.getUser())
+                    .build());
+
             return new MemoResponseDto(memo);
         }
 
         // 메모 수정
-        public MemoResponseDto updateMemo(Long id, MemoRequestDto memoRequestDto){
-            Memo memo = memoRepository.findById(id).orElseThrow(
-                    () -> new NullPointerException("메모가 존재하지 않습니다.")
-            );
-
+        public MemoResponseDto updateMemo(Long id, MemoRequestDto memoRequestDto, UserDetailsImpl userDetails){
+           Memo memo = memoRepository.findById(id).orElseThrow(
+                   () -> new IllegalArgumentException("메모가 존재하지 않습니다.")
+           );
             // 메모 수정하기
-            memo.update(memoRequestDto);
+            memo.update(memoRequestDto, userDetails.getUser());
+            memoRepository.saveAndFlush(memo); // 수정된 메모 저장
             return new MemoResponseDto(memo);
         }
-
 }

@@ -1,7 +1,7 @@
 package com.sparta.schedule.entity;
 
-import com.sparta.schedule.dto.CompleteRequestDto;
-import com.sparta.schedule.dto.ScheduleRequestDto;
+import com.sparta.schedule.dto.request.CompleteRequestDto;
+import com.sparta.schedule.dto.response.ScheduleRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,6 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String date;
 
     @Column(nullable = false)
@@ -45,12 +44,14 @@ public class Schedule {
     }
 
     public void update(ScheduleRequestDto scheduleRequestDto, User user) {
-        this.title = scheduleRequestDto.getTitle();
-        this.contents = scheduleRequestDto.getContents();
+        date = scheduleRequestDto.getDate();
+        title = scheduleRequestDto.getTitle();
+        contents = scheduleRequestDto.getContents();
         this.user = user;
     }
 
     public void updateCompleteStatus(CompleteRequestDto requestDto) {
         this.complete = requestDto.isComplete();
     }
+
 }

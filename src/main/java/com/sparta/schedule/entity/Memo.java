@@ -1,12 +1,15 @@
 package com.sparta.schedule.entity;
 
 
-import com.sparta.schedule.dto.MemoRequestDto;
+import com.sparta.schedule.dto.request.MemoRequestDto;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Memo {
 
@@ -15,30 +18,21 @@ public class Memo {
     private Long id;
 
     @Column(nullable = false)
-    private String comment;
+    private String content;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false) // user_id로 선언된 FK
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false) // user_id로 선언된 FK
     private User user;
 
-
-    public Memo(MemoRequestDto memoRequestDto){
-        this.comment = memoRequestDto.getContent();
+    @Builder
+    public Memo(MemoRequestDto memoRequestDto, User user){
+        this.content = memoRequestDto.getContent();
+        this.user = user;
     }
 
-    public Long getId() {
-        return id;
+    public void update(MemoRequestDto memoRequestDto, User user){
+        this.content = memoRequestDto.getContent();
+        this.user = user;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void update(MemoRequestDto memoRequestDto){
-        this.comment = memoRequestDto.getContent();
-    }
 }

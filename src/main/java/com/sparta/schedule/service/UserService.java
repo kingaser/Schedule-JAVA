@@ -1,7 +1,7 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.MegResponseDto;
-import com.sparta.schedule.dto.UserRequestDto;
+import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.entity.User;
 import com.sparta.schedule.entity.UserRoleEnum;
 import com.sparta.schedule.exception.ApiException;
@@ -27,7 +27,7 @@ public class UserService {
 
 //          회원가입
     @Transactional
-    public ResponseEntity<MegResponseDto> signup(UserRequestDto userRequestDto) {
+    public ResponseEntity<MessageResponseDto> signup(UserRequestDto userRequestDto) {
         String email = userRequestDto.getEmail();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
         String username = userRequestDto.getUsername();
@@ -39,11 +39,13 @@ public class UserService {
         }
 
         userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
-        return  ResponseEntity.ok(MegResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
+        return  ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
     }
+
+
     @Transactional
-    public ResponseEntity<MegResponseDto>login(UserRequestDto userRequestDto) {
+    public ResponseEntity<MessageResponseDto>login(UserRequestDto userRequestDto) {
         String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
@@ -59,6 +61,6 @@ public class UserService {
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(MegResponseDto.User_ServiceCode(HttpStatus.OK, "로그인 되었습니다."));
+                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK, "로그인 되었습니다."));
     }
 }
