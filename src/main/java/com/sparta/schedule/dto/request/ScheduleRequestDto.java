@@ -1,4 +1,4 @@
-package com.sparta.schedule.dto.response;
+package com.sparta.schedule.dto.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScheduleRequestDto {
 
-    private String date;
     private String title;
     private String author;
     private String contents;
+    private String date;
 }
 

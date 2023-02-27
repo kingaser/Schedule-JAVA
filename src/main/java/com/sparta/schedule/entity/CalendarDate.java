@@ -18,13 +18,16 @@ public class CalendarDate {
     @Column(unique = true, nullable = false)
     private String date;
 
-
-    @OneToMany
-    private List<Schedule> schedules;
+    @OneToMany(mappedBy = "calendarDate", cascade = CascadeType.ALL)
+    private List<Schedule> scheduleList;
 
     @Builder
-    public CalendarDate(CalendarDateRequestDto calendarDateRequestDto, List<Schedule> scheduleList) {
+    public CalendarDate(CalendarDateRequestDto calendarDateRequestDto) {
         date = calendarDateRequestDto.getDate();
-        schedules = scheduleList;
+    }
+
+    @Builder
+    public CalendarDate(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
     }
 }

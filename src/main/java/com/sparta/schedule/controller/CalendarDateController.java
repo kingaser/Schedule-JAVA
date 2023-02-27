@@ -1,6 +1,7 @@
 package com.sparta.schedule.controller;
 
 import com.sparta.schedule.dto.request.CalendarDateRequestDto;
+import com.sparta.schedule.dto.request.ScheduleRequestDto;
 import com.sparta.schedule.dto.response.CalendarDateResponseDto;
 import com.sparta.schedule.dto.response.ScheduleResponseDto;
 import com.sparta.schedule.service.CalendarDateService;

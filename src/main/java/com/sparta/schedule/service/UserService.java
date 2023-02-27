@@ -48,13 +48,14 @@ public class UserService {
         return  ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
 
     }
+
     @Transactional
     public ResponseEntity<MessageResponseDto>login(UserRequestDto userRequestDto) {
-        String username = userRequestDto.getUsername();
+        String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
 //        사용자 확인 및 비밀번호 확인
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())){
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
     }

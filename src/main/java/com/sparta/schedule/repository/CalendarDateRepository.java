@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CalendarDateRepository extends JpaRepository<CalendarDate, String> {
 
-
+    CalendarDate findByDate(String date);
 
 }
