@@ -12,3 +12,4 @@ public class ScheduleRequestDto {
     private String author;
     private String contents;
 }
+

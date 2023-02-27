@@ -51,6 +51,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedule/complete/{id}")
+    @PatchMapping("/schedule/complete/{id}")
     public String updateStatus(@RequestBody CompleteRequestDto requestDto){
         return scheduleService.updateScheduleStatus(requestDto);
     }

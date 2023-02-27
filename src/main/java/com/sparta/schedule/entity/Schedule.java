@@ -1,6 +1,5 @@
 package com.sparta.schedule.entity;
 
-import com.sparta.schedule.dto.CompleteRequestDto;
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;

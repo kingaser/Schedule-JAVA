@@ -53,17 +53,13 @@ public class ScheduleService {
             throw new IllegalArgumentException("스케쥴이 존재하지 않습니다.");
         }
 
-        // 해당 게시글이 있다면 게시글 객체를 Dto 로 변환  후 ResponseEntity body 에 담아서 리턴한다
         return ResponseEntity.ok(new ScheduleResponseDto(schedule.get()));
     }
 
     @Transactional
     public ResponseEntity<ScheduleResponseDto> updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
 
-        Optional<Schedule> found = scheduleRepository.findByUser(userDetails.getUser());
-        if (found.isEmpty() && userDetails.getUser().getRole() == UserRoleEnum.USER) {
-            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
-        }
+        foundUser(id, userDetails);
 
         Optional<Schedule> schedule = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
         if (schedule.isEmpty()) {
@@ -80,10 +76,7 @@ public class ScheduleService {
     @Transactional
     public ResponseEntity<MegResponseDto> deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
 
-        Optional<Schedule> found = scheduleRepository.findByUser(userDetails.getUser());
-        if (found.isEmpty() && userDetails.getUser().getRole() == UserRoleEnum.USER) {
-            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
-        }
+        foundUser(id, userDetails);
 
         Optional<Schedule> schedule = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
         if (schedule.isEmpty()) {
@@ -101,5 +94,12 @@ public class ScheduleService {
         );
         schedule.updateCompleteStatus(requestDto.isDone());
         return "success";
+    }
+
+    private void foundUser(Long id, UserDetailsImpl userDetails) {
+        Optional<Schedule> found = scheduleRepository.findByIdAndUser(id, userDetails.getUser());
+        if (found.isEmpty() && userDetails.getUser().getRole() == UserRoleEnum.USER) {
+            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
+        }
     }
 }
