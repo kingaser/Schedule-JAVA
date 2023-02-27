@@ -50,7 +50,7 @@ public class UserService {
         String password = userRequestDto.getPassword();
 
 //        사용자 확인 및 비밀번호 확인
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByUsername(email);
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())){
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
     }

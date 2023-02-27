@@ -1,11 +1,15 @@
 package com.sparta.schedule.service;
 
+import com.sparta.schedule.dto.request.CalendarDateRequestDto;
 import com.sparta.schedule.dto.request.CompleteRequestDto;
+import com.sparta.schedule.dto.response.CalendarDateResponseDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
-import com.sparta.schedule.dto.response.ScheduleRequestDto;
+import com.sparta.schedule.dto.request.ScheduleRequestDto;
 import com.sparta.schedule.dto.response.ScheduleResponseDto;
+import com.sparta.schedule.entity.CalendarDate;
 import com.sparta.schedule.entity.Schedule;
 import com.sparta.schedule.entity.UserRoleEnum;
+import com.sparta.schedule.repository.CalendarDateRepository;
 import com.sparta.schedule.repository.ScheduleRepository;
 import com.sparta.schedule.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,21 +27,28 @@ import java.util.Optional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CalendarDateRepository calendarDateRepository;
 
     @Transactional(readOnly = true)
     public ResponseEntity<List<ScheduleResponseDto>> getSchedule(String date) {
-        List<Schedule> schedules = scheduleRepository.findAllByDate(date);
+        CalendarDate calendarDate = calendarDateRepository.findByDate(date);
+        List<Schedule> schedules = scheduleRepository.findAllByCalendarDate(calendarDate);
         List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            scheduleResponseDtoList.add(new ScheduleResponseDto(schedule));
+            scheduleResponseDtoList.add(ScheduleResponseDto.builder()
+                    .schedule(schedule)
+                    .build());
         }
         return ResponseEntity.ok(scheduleResponseDtoList);
     }
 
     @Transactional
-    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto,UserDetailsImpl userDetails) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto,
+                                                              UserDetailsImpl userDetails) {
+        CalendarDate calendarDate = calendarDateRepository.findByDate(scheduleRequestDto.getDate());
         Schedule schedule = scheduleRepository.save(Schedule.builder()
                 .scheduleRequestDto(scheduleRequestDto)
+                .calendarDate(calendarDate)
                 .user(userDetails.getUser())
                 .build());
 
@@ -92,7 +103,7 @@ public class ScheduleService {
             Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("해당하는 일정이 존재하지 않습니다.")
             );
-                schedule.updateCompleteStatus(requestDto);
+            schedule.updateCompleteStatus(requestDto);
             return "success";
     }
 

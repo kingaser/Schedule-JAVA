@@ -11,12 +11,16 @@ import java.util.List;
 public class CalendarDateResponseDto {
 
     private String date;
-    private List<Schedule> scheduleList;
+    private List<ScheduleResponseDto> scheduleResponseDtoList;
 
     @Builder
     public CalendarDateResponseDto(CalendarDate calendarDate) {
         date = calendarDate.getDate();
-        scheduleList = calendarDate.getSchedules();
+    }
+
+    @Builder
+    public CalendarDateResponseDto(List<ScheduleResponseDto> scheduleResponseDto) {
+        this.scheduleResponseDtoList = scheduleResponseDto;
     }
 
 //    public CalendarDateResponseDto(CalendarDateResponseDto calendarDateResponseDto) {
