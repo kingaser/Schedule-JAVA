@@ -47,8 +47,7 @@ public class WebSecurityConfig {
             CorsConfiguration cors = new CorsConfiguration();
 
             cors.setAllowedOriginPatterns(List.of("*"));      //  주소값 (*로 하면 전부다 허용이 됍니다.)
-
-            cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+            cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS","PATCH"));
             cors.setAllowedHeaders(List.of("*"));
             cors.addExposedHeader("Authorization");                 //  인증값 토큰
 //            cors.addExposedHeader("Refresh_Token");                 //  Refresh 구현하면 쓰고 아니면 필요없음.
