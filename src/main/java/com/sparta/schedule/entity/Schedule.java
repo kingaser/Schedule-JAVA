@@ -1,5 +1,6 @@
 package com.sparta.schedule.entity;
 
+import com.sparta.schedule.dto.CompleteRequestDto;
 import com.sparta.schedule.dto.ScheduleRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class Schedule {
 
     private String contents;
 
-    private boolean isDone;
+    private boolean complete;
 
     @ManyToOne
     @JoinColumn(name = "User_Id", nullable = false)
@@ -49,7 +50,7 @@ public class Schedule {
         this.user = user;
     }
 
-    public void updateCompleteStatus(boolean isDone) {
-        this.isDone = isDone;
+    public void updateCompleteStatus(CompleteRequestDto requestDto) {
+        this.complete = requestDto.isComplete();
     }
 }

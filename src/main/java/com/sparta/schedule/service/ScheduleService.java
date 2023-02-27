@@ -37,7 +37,6 @@ public class ScheduleService {
 
     @Transactional
     public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
-
         Schedule schedule = scheduleRepository.save(Schedule.builder()
                 .scheduleRequestDto(scheduleRequestDto)
                 .user(userDetails.getUser())
@@ -78,6 +77,7 @@ public class ScheduleService {
 
         foundUser(id, userDetails);
 
+
         Optional<Schedule> schedule = scheduleRepository.findByIdAndDate(id, scheduleRequestDto.getDate());
         if (schedule.isEmpty()) {
             throw new IllegalArgumentException("스케쥴이 존재하지 않습니다.");
@@ -88,12 +88,13 @@ public class ScheduleService {
                 .body(MegResponseDto.User_ServiceCode(HttpStatus.OK, "삭제 완료"));
     }
 
-    public String updateScheduleStatus(CompleteRequestDto requestDto) {
-        Schedule schedule = scheduleRepository.findById(requestDto.getId()).orElseThrow(
-                () -> new IllegalArgumentException("해당하는 일정이 없습니다.")
-        );
-        schedule.updateCompleteStatus(requestDto.isDone());
-        return "success";
+    @Transactional
+    public String updateCompleteStatus(Long id, CompleteRequestDto requestDto) {
+            Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("해당하는 일정이 존재하지 않습니다.")
+            );
+                schedule.updateCompleteStatus(requestDto);
+            return "success";
     }
 
     private void foundUser(Long id, UserDetailsImpl userDetails) {

@@ -50,10 +50,10 @@ public class ScheduleController {
         return scheduleService.deleteSchedule(id, scheduleRequestDto, userDetails);
     }
 
-    @PutMapping("/schedule/complete/{id}")
-    @PatchMapping("/schedule/complete/{id}")
-    public String updateStatus(@RequestBody CompleteRequestDto requestDto){
-        return scheduleService.updateScheduleStatus(requestDto);
+    @PatchMapping("/schedule/{id}")
+    public String updateCompleteStatus(@PathVariable Long id,
+                               @RequestBody CompleteRequestDto requestDto){
+        return scheduleService.updateCompleteStatus(id, requestDto);
     }
 }
 
