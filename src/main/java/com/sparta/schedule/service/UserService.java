@@ -43,25 +43,32 @@ public class UserService {
 
     }
 
+
     @Transactional
-    public ResponseEntity<MessageResponseDto>login(UserRequestDto userRequestDto) {
+    public ResponseEntity<MessageResponseDto> login(UserRequestDto userRequestDto) {
         String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
 //        사용자 확인 및 비밀번호 확인
-
         Optional<User> user = userRepository.findByEmail(email);
-
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())){
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
     }
 
-//        header에 들어갈 JWT 세팅
         HttpHeaders headers = new HttpHeaders();
         headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getEmail(), user.get().getRole()));
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK, "로그인 되었습니다."));
+                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"로그인 성공"));
+
+//        header에 들어갈 JWT 세팅 body에다가 넣는거
+//       String jwtUtil2 = JwtUtil.AUTHORIZATION_HEADER+" "+ jwtUtil.createToken(user.get().getEmail(), user.get().getRole());
+//
+//        return MessageResponseDto.builder()
+//                .code(HttpStatus.OK.value())
+//                .msg("성공")
+//                .jwtUtil(jwtUtil2)
+//                .build();
     }
 }
