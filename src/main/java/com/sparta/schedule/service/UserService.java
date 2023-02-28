@@ -9,7 +9,6 @@ import com.sparta.schedule.exception.ErrorCode;
 import com.sparta.schedule.jwt.JwtUtil;
 import com.sparta.schedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +44,7 @@ public class UserService {
 
 
     @Transactional
-    public ResponseEntity<MessageResponseDto>login(UserRequestDto userRequestDto) {
+    public MessageResponseDto login(UserRequestDto userRequestDto) {
         String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
@@ -55,12 +54,13 @@ public class UserService {
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
     }
 
-//        header에 들어갈 JWT 세팅
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getEmail(), user.get().getRole()));
+//        header에 들어갈 JWT 세팅 body에다가 넣는거
+       String jwtUtil2 = JwtUtil.AUTHORIZATION_HEADER+" "+ jwtUtil.createToken(user.get().getEmail(), user.get().getRole());
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK, "로그인 되었습니다."));
+        return MessageResponseDto.builder()
+                .code(HttpStatus.OK.value())
+                .msg("성공")
+                .jwtUtil(jwtUtil2)
+                .build();
     }
 }
