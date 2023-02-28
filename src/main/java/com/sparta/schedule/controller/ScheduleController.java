@@ -19,28 +19,26 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/schedule")
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto,
-                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return scheduleService.createSchedule(scheduleRequestDto, userDetails);
-    }
-
-    @GetMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id) {
-        return scheduleService.getSchedule(id);
-    }
-
-    @PutMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
+    @PostMapping("/{date}")
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@PathVariable String date,
                                                               @RequestBody ScheduleRequestDto scheduleRequestDto,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return scheduleService.updateSchedule(id, scheduleRequestDto, userDetails);
+        return scheduleService.createSchedule(date, scheduleRequestDto, userDetails);
     }
 
-    @DeleteMapping("/schedule/{id}")
-    public ResponseEntity<MessageResponseDto> deleteSchedule(@PathVariable Long id,
+    @PutMapping("/{date}/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable String date,
+                                                              @PathVariable Long id,
+                                                              @RequestBody ScheduleRequestDto scheduleRequestDto,
+                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return scheduleService.updateSchedule(date, id, scheduleRequestDto, userDetails);
+    }
+
+    @DeleteMapping("/{date}/{id}")
+    public ResponseEntity<MessageResponseDto> deleteSchedule(@PathVariable String date,
+                                                             @PathVariable Long id,
                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return scheduleService.deleteSchedule(id, userDetails);
+        return scheduleService.deleteSchedule(date, id, userDetails);
     }
 
     @PatchMapping("/schedule/{id}")
