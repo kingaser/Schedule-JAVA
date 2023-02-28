@@ -43,9 +43,10 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto,
+    public ResponseEntity<ScheduleResponseDto> createSchedule(String date,
+                                                              ScheduleRequestDto scheduleRequestDto,
                                                               UserDetailsImpl userDetails) {
-        CalendarDate calendarDate = calendarDateRepository.findByDate(scheduleRequestDto.getDate());
+        CalendarDate calendarDate = calendarDateRepository.findByDate(date);
         Schedule schedule = scheduleRepository.save(Schedule.builder()
                 .scheduleRequestDto(scheduleRequestDto)
                 .calendarDate(calendarDate)
@@ -66,9 +67,14 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto, UserDetailsImpl userDetails) {
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(String date,
+                                                              Long id,
+                                                              ScheduleRequestDto scheduleRequestDto,
+                                                              UserDetailsImpl userDetails) {
 
         foundUser(id, userDetails);
+
+        CalendarDate calendarDate = calendarDateRepository.findByDate(date);
 
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) {
@@ -83,10 +89,13 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ResponseEntity<MessageResponseDto> deleteSchedule(Long id, UserDetailsImpl userDetails) {
+    public ResponseEntity<MessageResponseDto> deleteSchedule(String date,
+                                                             Long id,
+                                                             UserDetailsImpl userDetails) {
 
         foundUser(id, userDetails);
 
+        CalendarDate calendarDate = calendarDateRepository.findByDate(date);
 
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         if (schedule.isEmpty()) {
