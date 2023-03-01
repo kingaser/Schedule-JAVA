@@ -31,7 +31,7 @@ public class UserController {
         return userService.login(userRequestDto);
     }
 
-    @PostMapping("/idCheck")
+    @GetMapping("/idCheck")
     public ResponseEntity<MessageResponseDto> idCheck(@RequestBody UserRequestDto userRequestDto){
         return userService.idCheck(userRequestDto);
     }

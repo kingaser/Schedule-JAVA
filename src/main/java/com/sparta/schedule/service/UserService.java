@@ -52,7 +52,7 @@ public class UserService {
         
 //              중복 회원 일 경우
         if(users.isPresent()){
-            throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
+            throw new IllegalArgumentException("1");
         }
 //              중복 회원이 아닐 경우 아이디 사용 가능
         return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"1"));
