@@ -4,6 +4,7 @@ package com.sparta.schedule.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.response.UserResponseDto;
 import com.sparta.schedule.jwt.JwtUtil;
 import com.sparta.schedule.service.KakaoService;
 import com.sparta.schedule.service.UserService;
@@ -26,7 +27,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<MessageResponseDto> login(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
     }
 
