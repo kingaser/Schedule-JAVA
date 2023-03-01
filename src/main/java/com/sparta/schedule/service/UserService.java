@@ -2,6 +2,7 @@ package com.sparta.schedule.service;
 
 import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.dto.request.UserRequestDto;
+import com.sparta.schedule.dto.response.UserResponseDto;
 import com.sparta.schedule.entity.User;
 import com.sparta.schedule.entity.UserRoleEnum;
 import com.sparta.schedule.exception.ApiException;
@@ -39,7 +40,7 @@ public class UserService {
         }
 
         userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
-        return  ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"회원가입 성공"));
+        return  ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK, "회원가입 성공"));
 
     }
 
@@ -60,7 +61,7 @@ public class UserService {
 
 
     @Transactional
-    public ResponseEntity<MessageResponseDto> login(UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> login(UserRequestDto userRequestDto) {
         String email = userRequestDto.getEmail();
         String password = userRequestDto.getPassword();
 
@@ -75,7 +76,7 @@ public class UserService {
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"로그인 성공"));
+                .body(UserResponseDto.User_ServiceCode(HttpStatus.OK, "로그인 성공", user.get().getUsername()));
 
 //        header에 들어갈 JWT 세팅 body에다가 넣는거
 //       String jwtUtil2 = JwtUtil.AUTHORIZATION_HEADER+" "+ jwtUtil.createToken(user.get().getEmail(), user.get().getRole());
