@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ScheduleService {
                 .calendarDate(calendarDate)
                 .user(userDetails.getUser())
                 .build());
-
+//          데이터 null값 예외처리
         return ResponseEntity.ok(new ScheduleResponseDto(schedule));
     }
 

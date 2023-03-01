@@ -35,7 +35,7 @@ public class UserService {
 //        회원 중복 확인
         Optional<User> found = userRepository.findByEmail(email);
         if(found.isPresent()){
-            throw new IllegalArgumentException("중복 회원입니다.");
+            throw new ApiException(ErrorCode.DUPLICATED_USERNAME);
         }
 
         userRepository.save(User.user_service(username,password,email, UserRoleEnum.USER));
@@ -51,7 +51,7 @@ public class UserService {
         
 //              중복 회원 일 경우
         if(users.isPresent()){
-            throw new IllegalArgumentException("2");
+            throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
         }
 //              중복 회원이 아닐 경우 아이디 사용 가능
         return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"1"));
