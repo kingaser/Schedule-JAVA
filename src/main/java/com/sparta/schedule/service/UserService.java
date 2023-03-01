@@ -52,10 +52,10 @@ public class UserService {
         
 //              중복 회원 일 경우
         if(users.isPresent()){
-            throw new IllegalArgumentException("1");
+            throw new IllegalArgumentException("중복 회원입니다.");
         }
 //              중복 회원이 아닐 경우 아이디 사용 가능
-        return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"1"));
+        return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"아이디 사용가능합니다."));
     }
 
 
