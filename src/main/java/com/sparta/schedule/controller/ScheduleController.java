@@ -2,6 +2,7 @@ package com.sparta.schedule.controller;
 
 import com.sparta.schedule.dto.request.CalendarDateRequestDto;
 import com.sparta.schedule.dto.request.CompleteRequestDto;
+import com.sparta.schedule.dto.response.CompleteResponseDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.dto.request.ScheduleRequestDto;
 import com.sparta.schedule.dto.response.ScheduleResponseDto;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/date")
@@ -21,7 +24,7 @@ public class ScheduleController {
 
     @PostMapping("/{date}")
     public ResponseEntity<ScheduleResponseDto> createSchedule(@PathVariable String date,
-                                                              @RequestBody ScheduleRequestDto scheduleRequestDto,
+                                                              @Valid @RequestBody ScheduleRequestDto scheduleRequestDto,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.createSchedule(date, scheduleRequestDto, userDetails);
     }
@@ -41,10 +44,17 @@ public class ScheduleController {
         return scheduleService.deleteSchedule(date, id, userDetails);
     }
 
-    @PatchMapping("/schedule/{id}")
-    public String updateCompleteStatus(@PathVariable Long id,
-                               @RequestBody CompleteRequestDto requestDto){
-        return scheduleService.updateCompleteStatus(id, requestDto);
+    @PatchMapping("/schedule/complete/{id}")
+    public ResponseEntity<CompleteResponseDto> patchComplete(@PathVariable Long id,
+                                                             @RequestBody CompleteRequestDto completeRequestDto,
+                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return scheduleService.patchComplete(id, completeRequestDto, userDetails);
+    }
+
+    @PatchMapping("/schedule/cancel/{id}")
+    public ResponseEntity<CompleteResponseDto> cancelComplete(@PathVariable Long id,
+                                                             @RequestBody CompleteRequestDto completeRequestDto,
+                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return scheduleService.cancelComplete(id, completeRequestDto, userDetails);
     }
 }
-

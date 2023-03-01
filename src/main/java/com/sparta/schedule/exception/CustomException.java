@@ -16,12 +16,14 @@ public class CustomException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<MessageResponseDto> methodValidException(MethodArgumentNotValidException e) {
         MessageResponseDto messageResponse = ErrorResponse(e.getMessage());
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(messageResponse);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<MessageResponseDto> commonException(RuntimeException e) {
-        MessageResponseDto messageResponse = ErrorResponse(e.getMessage());
+        MessageResponseDto messageResponse = ErrorResponse("서버에 장애가 발생했습니다.");
+        log.error(e.getMessage());  // 로그 남기기
         return ResponseEntity.badRequest().body(messageResponse);
     }
 

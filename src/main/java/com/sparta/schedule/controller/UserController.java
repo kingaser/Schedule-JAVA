@@ -4,6 +4,7 @@ package com.sparta.schedule.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.response.UserResponseDto;
 import com.sparta.schedule.jwt.JwtUtil;
 import com.sparta.schedule.service.KakaoService;
 import com.sparta.schedule.service.UserService;
@@ -24,9 +25,15 @@ public class UserController {
     private final KakaoService kakaoService;
 
 
+
     @PostMapping("/login")
-    public ResponseEntity<MessageResponseDto> login(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
+    }
+
+    @PostMapping("/idCheck")
+    public ResponseEntity<MessageResponseDto> idCheck(@RequestBody UserRequestDto userRequestDto){
+        return userService.idCheck(userRequestDto);
     }
 
 
@@ -46,7 +53,7 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/main";
+        return "redirect:/15.164.158.158:8080/date";
     }
 
 

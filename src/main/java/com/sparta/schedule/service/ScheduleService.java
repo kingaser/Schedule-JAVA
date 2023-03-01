@@ -3,6 +3,7 @@ package com.sparta.schedule.service;
 import com.sparta.schedule.dto.request.CalendarDateRequestDto;
 import com.sparta.schedule.dto.request.CompleteRequestDto;
 import com.sparta.schedule.dto.response.CalendarDateResponseDto;
+import com.sparta.schedule.dto.response.CompleteResponseDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.dto.request.ScheduleRequestDto;
 import com.sparta.schedule.dto.response.ScheduleResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class ScheduleService {
                 .calendarDate(calendarDate)
                 .user(userDetails.getUser())
                 .build());
-
+//          데이터 null값 예외처리
         return ResponseEntity.ok(new ScheduleResponseDto(schedule));
     }
 
@@ -108,12 +110,47 @@ public class ScheduleService {
     }
 
     @Transactional
-    public String updateCompleteStatus(Long id, CompleteRequestDto requestDto) {
-            Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("해당하는 일정이 존재하지 않습니다.")
-            );
-            schedule.updateCompleteStatus(requestDto);
-            return "success";
+    public ResponseEntity<CompleteResponseDto> patchComplete(Long id,
+                                                             CompleteRequestDto completeRequestDto,
+                                                             UserDetailsImpl userDetails) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 일정이 없습니다.")
+        );
+
+        Schedule check = scheduleRepository.findByComplete(!completeRequestDto.isComplete()).orElseThrow(
+                () -> new IllegalArgumentException("완료가 되지 않았습니다.")
+        );
+
+        if (check.isComplete()) {
+            throw new IllegalStateException("이미 완료된 스케쥴입니다.");
+        }
+
+        schedule.updateCompleteStatus(completeRequestDto);
+        return ResponseEntity.ok().body(
+                CompleteResponseDto.User_ServiceCode(HttpStatus.OK, true, "스케쥴 완료")
+        );
+    }
+
+    @Transactional
+    public ResponseEntity<CompleteResponseDto> cancelComplete(Long id,
+                                                             CompleteRequestDto completeRequestDto,
+                                                             UserDetailsImpl userDetails) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 일정이 없습니다.")
+        );
+
+        Schedule check = scheduleRepository.findByComplete(!completeRequestDto.isComplete()).orElseThrow(
+                () -> new IllegalArgumentException("완료가 되지 않았습니다.")
+        );
+
+        if (!check.isComplete()) {
+            throw new IllegalStateException("완료가 취소된 스케쥴입니다.");
+        }
+
+        schedule.updateCompleteStatus(completeRequestDto);
+        return ResponseEntity.ok().body(
+                CompleteResponseDto.User_ServiceCode(HttpStatus.OK, false, "완료 취소")
+        );
     }
 
     private void foundUser(Long id, UserDetailsImpl userDetails) {
