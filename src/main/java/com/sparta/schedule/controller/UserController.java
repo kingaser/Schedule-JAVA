@@ -53,7 +53,7 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/main";
+        return "redirect:/15.164.158.158:8080/date";
     }
 
 
