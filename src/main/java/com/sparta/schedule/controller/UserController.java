@@ -24,9 +24,15 @@ public class UserController {
     private final KakaoService kakaoService;
 
 
+
     @PostMapping("/login")
     public ResponseEntity<MessageResponseDto> login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
+    }
+
+    @PostMapping("/idCheck")
+    public ResponseEntity<MessageResponseDto> idCheck(@RequestBody UserRequestDto userRequestDto){
+        return userService.idCheck(userRequestDto);
     }
 
 

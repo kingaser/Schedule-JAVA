@@ -47,4 +47,3 @@ public class ScheduleController {
         return scheduleService.updateCompleteStatus(id, requestDto);
     }
 }
-
