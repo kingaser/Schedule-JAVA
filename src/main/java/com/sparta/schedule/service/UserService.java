@@ -43,6 +43,21 @@ public class UserService {
 
     }
 
+//          중복 회원 검사 (버튼)
+    @Transactional
+    public ResponseEntity<MessageResponseDto>idCheck(UserRequestDto userRequestDto){
+        String email = userRequestDto.getEmail();
+        Optional<User> users = userRepository.findByEmail(email);
+        
+//              중복 회원 일 경우
+        if(users.isPresent()){
+            throw new IllegalArgumentException("2");
+        }
+//              중복 회원이 아닐 경우 아이디 사용 가능
+        return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"1"));
+    }
+
+
 
     @Transactional
     public ResponseEntity<MessageResponseDto> login(UserRequestDto userRequestDto) {
