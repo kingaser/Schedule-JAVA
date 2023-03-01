@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/date")
@@ -21,7 +23,7 @@ public class ScheduleController {
 
     @PostMapping("/{date}")
     public ResponseEntity<ScheduleResponseDto> createSchedule(@PathVariable String date,
-                                                              @RequestBody ScheduleRequestDto scheduleRequestDto,
+                                                              @Valid @RequestBody ScheduleRequestDto scheduleRequestDto,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return scheduleService.createSchedule(date, scheduleRequestDto, userDetails);
     }
