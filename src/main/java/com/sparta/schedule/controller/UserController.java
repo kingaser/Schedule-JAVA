@@ -4,11 +4,14 @@ package com.sparta.schedule.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
+import com.sparta.schedule.dto.response.UserResponseDto;
 import com.sparta.schedule.jwt.JwtUtil;
+import com.sparta.schedule.security.UserDetailsImpl;
 import com.sparta.schedule.service.KakaoService;
 import com.sparta.schedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -24,9 +27,20 @@ public class UserController {
     private final KakaoService kakaoService;
 
 
+
     @PostMapping("/login")
-    public ResponseEntity<MessageResponseDto> login(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<UserResponseDto> getLogin(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getLogin(userDetails);
+    }
+
+    @PostMapping("/idCheck")
+    public ResponseEntity<MessageResponseDto> idCheck(@RequestBody UserRequestDto userRequestDto){
+        return userService.idCheck(userRequestDto);
     }
 
 
@@ -36,7 +50,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/kakao/login")
+    @PostMapping("/oauth/callback/kakao")
     public String kakaoLogin(@RequestParam String code, HttpServletResponse response)throws JsonProcessingException {
 //        code : 카카오 서버로부터 받은 인가 코드
         String createToken = kakaoService.kakaoLogin(code, response);
@@ -46,7 +60,7 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/main";
+        return "redirect:/date";
     }
 
 
