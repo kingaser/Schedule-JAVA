@@ -14,3 +14,11 @@ https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bbc7ebd1-84b4-4670-8
 [API 설계](https://www.notion.so/182d5e8568fc4875a25adad0fc06605e)
 
 ![ERD.png](doc%2FERD.png)
+
+![회원가입.png](doc%2F%C8%B8%BF%F8%B0%A1%C0%D4.png)
+
+![로그인.png](doc%2F%B7%CE%B1%D7%C0%CE.png)
+
+![main.png](doc%2Fmain.png)
+
+![스케쥴 작성.png](doc%2F%BD%BA%C4%C9%C1%EC%20%C0%DB%BC%BA.png)
