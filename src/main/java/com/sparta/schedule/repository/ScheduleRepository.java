@@ -13,5 +13,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 //    Optional<Schedule> findByIdAndDate(Long id, String date);
     Optional<Schedule> findByIdAndUser(Long id, User user);
 
-    Optional<Schedule> findByComplete(boolean complete);
+    Optional<Schedule> findByIdAndComplete(Long id, boolean complete);
 }

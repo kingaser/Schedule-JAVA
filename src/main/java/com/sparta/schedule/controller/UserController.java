@@ -6,10 +6,12 @@ import com.sparta.schedule.dto.request.UserRequestDto;
 import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.dto.response.UserResponseDto;
 import com.sparta.schedule.jwt.JwtUtil;
+import com.sparta.schedule.security.UserDetailsImpl;
 import com.sparta.schedule.service.KakaoService;
 import com.sparta.schedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -29,6 +31,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto){
         return userService.login(userRequestDto);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<UserResponseDto> getLogin(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getLogin(userDetails);
     }
 
     @PostMapping("/idCheck")

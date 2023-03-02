@@ -9,6 +9,7 @@ import com.sparta.schedule.exception.ApiException;
 import com.sparta.schedule.exception.ErrorCode;
 import com.sparta.schedule.jwt.JwtUtil;
 import com.sparta.schedule.repository.UserRepository;
+import com.sparta.schedule.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,13 @@ public class UserService {
         return ResponseEntity.ok(MessageResponseDto.User_ServiceCode(HttpStatus.OK,"아이디 사용가능합니다."));
     }
 
+    public ResponseEntity<UserResponseDto> getLogin(UserDetailsImpl userDetails) {
 
+        Optional<User> user = userRepository.findByEmail(userDetails.getUser().getEmail());
+
+        return ResponseEntity.ok()
+                .body(UserResponseDto.User_ServiceCode(HttpStatus.OK, "", user.get().getUsername()));
+    }
 
     @Transactional
     public ResponseEntity<UserResponseDto> login(UserRequestDto userRequestDto) {
@@ -69,7 +76,7 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())){
             throw new ApiException(ErrorCode.NOT_MATCHING_INFO);
-    }
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.get().getEmail(), user.get().getRole()));
@@ -87,4 +94,6 @@ public class UserService {
 //                .jwtUtil(jwtUtil2)
 //                .build();
     }
+
+
 }
