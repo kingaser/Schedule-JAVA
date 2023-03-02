@@ -3,9 +3,11 @@ package com.sparta.schedule.controller;
 
 import com.sparta.schedule.dto.request.MemoRequestDto;
 import com.sparta.schedule.dto.response.MemoResponseDto;
+import com.sparta.schedule.dto.response.MessageResponseDto;
 import com.sparta.schedule.security.UserDetailsImpl;
 import com.sparta.schedule.service.MemoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +22,13 @@ public class MemoController {
 
     // 메모 조회 API
     @GetMapping("/memo")
-    public List<MemoResponseDto> memos(){
+    public ResponseEntity<List<MemoResponseDto>> memos(){
         return memoService.memos();
     }
 
     // 메모 생성 API
     @PostMapping ("/memo")
-    public MemoResponseDto createMemo(@RequestBody MemoRequestDto memoRequestDto,
+    public ResponseEntity<MemoResponseDto> createMemo(@RequestBody MemoRequestDto memoRequestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
         return memoService.createMemo(memoRequestDto, userDetails);
     }
@@ -36,5 +38,11 @@ public class MemoController {
     public MemoResponseDto updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto memoRequestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
         return memoService.updateMemo(id, memoRequestDto, userDetails);
+    }
+
+    @DeleteMapping("/memo/{id}")
+    public ResponseEntity<MessageResponseDto> deleteMemo(@PathVariable Long id,
+                                                         @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return memoService.deleteMemo(id, userDetails);
     }
 }
