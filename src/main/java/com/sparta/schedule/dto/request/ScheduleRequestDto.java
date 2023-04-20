@@ -10,11 +10,11 @@ import javax.validation.constraints.NotBlank;
 public class ScheduleRequestDto {
 
     @NotBlank(message = "제목이 없습니다.")
-    private String title;
+    private final String title;
     @NotBlank(message = "작성자가 없습니다.")
-    private String author;
+    private final String author;
     @NotBlank(message = "내용이 없습니다.")
-    private String contents;
+    private final String contents;
 
 }
 

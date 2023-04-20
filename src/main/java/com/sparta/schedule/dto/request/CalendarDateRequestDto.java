@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CalendarDateRequestDto {
 
-    private String date;
+    private final String date;
 
 
 }

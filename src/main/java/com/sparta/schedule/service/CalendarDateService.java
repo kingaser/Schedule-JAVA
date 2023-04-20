@@ -24,4 +24,8 @@ public class CalendarDateService {
         return ResponseEntity.ok(new CalendarDateResponseDto(calendarDate));
     }
 
+    public ResponseEntity<CalendarDateResponseDto> getDate(String date) {
+        CalendarDate calendarDate = calendarDateRepository.findByDate(date);
+        return ResponseEntity.ok(new CalendarDateResponseDto(calendarDate));
+    }
 }
